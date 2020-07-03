@@ -16,6 +16,7 @@ public class DreamServiceImpl implements DreamService {
         this.dreamsDAO = dreamsDAO;
     }
 
+    @Override
     public List<Dream> getUserDreams(String username) {
         return this.dreamsDAO.getUserDreams(username);
     }
