@@ -9,9 +9,7 @@ import com.chugunova.myproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -69,5 +67,14 @@ public class RestController {
             adviceDuration = adviceDurations.get(4);
         }
         return new ResponseEntity<>(adviceDuration, HttpStatus.OK);
+    }
+
+    @PostMapping({"dreams/dream/{username}"})
+    public ResponseEntity<String> addUserDreams(@RequestBody Dream dream, @PathVariable(name = "username") String username) {
+        if (dream.getDreamText().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dream is empty");
+        }
+        dreamService.addUserDreams(dream.getDreamName(), dream.getDreamText(), username, dream.getDreamDuration());
+        return new ResponseEntity<>("Dream was send", HttpStatus.OK);
     }
 }

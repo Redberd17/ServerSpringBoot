@@ -18,6 +18,6 @@ public class AdviceDurServiceImpl implements AdviceDurService {
 
     @Override
     public List<AdviceDuration> getAdviceDuration() {
-        return this.adviceDurDAO.getAdviceDur();
+        return adviceDurDAO.getAdviceDur();
     }
 }

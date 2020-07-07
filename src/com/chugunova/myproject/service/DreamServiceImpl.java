@@ -18,6 +18,11 @@ public class DreamServiceImpl implements DreamService {
 
     @Override
     public List<Dream> getUserDreams(String username) {
-        return this.dreamsDAO.getUserDreams(username);
+        return dreamsDAO.getUserDreams(username);
+    }
+
+    @Override
+    public void addUserDreams(String dreamName, String dreamText, String username, Double dreamDuration) {
+        dreamsDAO.addUserDreams(dreamName, dreamText, username, dreamDuration);
     }
 }

@@ -32,4 +32,13 @@ public class DreamsDAO extends JdbcDaoSupport {
             return new Dream(dreamName, dreamDate, dreamText, dreamDuration);
         });
     }
+
+    public void addUserDreams(String dreamName, String dreamText, String username, Double dreamDuration) {
+        String sql = DreamsMapper.ADD_NEW_DREAM;
+        Object[] params = new Object[]{dreamName, dreamText, username, dreamDuration};
+        assert this.getJdbcTemplate() != null;
+        int rows = this.getJdbcTemplate().update(sql, params);
+        System.out.println(rows + " dreams send");
+    }
+
 }
