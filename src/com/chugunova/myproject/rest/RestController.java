@@ -32,8 +32,8 @@ public class RestController {
     @GetMapping({"dreams/{username}"})
     public ResponseEntity<List<Dream>> getUserDreams(@PathVariable(name = "username") String username) {
         List<Dream> dream = this.dreamService.getUserDreams(username);
-        if (dream == null) {
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        if (dream.size() == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(dream, HttpStatus.OK);
         }
