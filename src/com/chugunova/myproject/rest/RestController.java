@@ -9,6 +9,7 @@ import com.chugunova.myproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,9 +30,9 @@ public class RestController {
         this.adviceDurService = adviceDurService;
     }
 
-    @GetMapping({"dreams/{username}"})
-    public ResponseEntity<List<Dream>> getUserDreams(@PathVariable(name = "username") String username) {
-        List<Dream> dream = this.dreamService.getUserDreams(username);
+    @GetMapping({"dreams"})
+    public ResponseEntity<List<Dream>> getUserDreams(Authentication authentication) {
+        List<Dream> dream = this.dreamService.getUserDreams(authentication.getName());
         if (dream.size() == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else {
@@ -40,8 +41,8 @@ public class RestController {
     }
 
     @GetMapping({"{username}"})
-    public ResponseEntity<User> getUser(@PathVariable(name = "username") String username) {
-        User user = this.userService.getUser(username);
+    public ResponseEntity<User> getUser(Authentication authentication) {
+        User user = this.userService.getUser(authentication.getName());
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else {
@@ -69,12 +70,12 @@ public class RestController {
         return new ResponseEntity<>(adviceDuration, HttpStatus.OK);
     }
 
-    @PostMapping({"dreams/dream/{username}"})
-    public ResponseEntity<String> addUserDreams(@RequestBody Dream dream, @PathVariable(name = "username") String username) {
+    @PostMapping({"dreams/dream"})
+    public ResponseEntity<String> addUserDreams(@RequestBody Dream dream, Authentication authentication) {
         if (dream.getDreamText().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dream is empty");
         }
-        dreamService.addUserDreams(dream.getDreamName(), dream.getDreamText(), username, dream.getDreamDuration());
+        dreamService.addUserDreams(dream.getDreamName(), dream.getDreamText(), authentication.getName(), dream.getDreamDuration());
         return new ResponseEntity<>("Dream was send", HttpStatus.OK);
     }
 }
