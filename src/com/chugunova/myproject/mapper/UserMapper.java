@@ -8,4 +8,7 @@ public class UserMapper {
     public static String USER_FOR_SPRING_SECURITY = "select user_name as login, user_password as password, user_role as role\n" +
             "from users\n" +
             "where user_name = ?";
+
+    public static String USER_FOR_REGISTRATION = "insert into users (user_name, user_password, user_role)\n" +
+            "values (?, ?, 'ROLE_USER')";
 }

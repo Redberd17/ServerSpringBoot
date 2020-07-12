@@ -2,7 +2,6 @@ package com.chugunova.myproject.DAO;
 
 import com.chugunova.myproject.mapper.UserMapper;
 import com.chugunova.myproject.model.Role;
-import com.chugunova.myproject.model.User;
 import com.chugunova.myproject.model.UserSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -22,20 +21,6 @@ public class UsersDAO extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public User getUser(String username) {
-        String sql = UserMapper.GET_USER_BY_USERNAME;
-        Object[] params = new Object[]{username};
-        try {
-            assert this.getJdbcTemplate() != null;
-            return this.getJdbcTemplate().queryForObject(sql, params, (resultSet, i) -> {
-                String userName = resultSet.getString("userName");
-                return new User(userName);
-            });
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
-    }
-
     public UserSecurity userForSecurity(String login) {
         String sql = UserMapper.USER_FOR_SPRING_SECURITY;
         Object[] params = new Object[]{login};
@@ -52,5 +37,13 @@ public class UsersDAO extends JdbcDaoSupport {
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public void addNewUser(String username, String password) {
+        String sql = UserMapper.USER_FOR_REGISTRATION;
+        Object[] params = new Object[]{username, password};
+        assert this.getJdbcTemplate() != null;
+        int rows = this.getJdbcTemplate().update(sql, params);
+        System.out.println(rows + " user was added");
     }
 }

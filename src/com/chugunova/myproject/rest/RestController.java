@@ -2,7 +2,6 @@ package com.chugunova.myproject.rest;
 
 import com.chugunova.myproject.model.AdviceDuration;
 import com.chugunova.myproject.model.Dream;
-import com.chugunova.myproject.model.User;
 import com.chugunova.myproject.service.AdviceDurService;
 import com.chugunova.myproject.service.DreamService;
 import com.chugunova.myproject.service.UserService;
@@ -20,13 +19,11 @@ import java.util.List;
 public class RestController {
 
     private final DreamService dreamService;
-    private final UserService userService;
     private final AdviceDurService adviceDurService;
 
     @Autowired
     public RestController(DreamService dreamService, UserService userService, AdviceDurService adviceDurService) {
         this.dreamService = dreamService;
-        this.userService = userService;
         this.adviceDurService = adviceDurService;
     }
 
@@ -37,16 +34,6 @@ public class RestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(dream, HttpStatus.OK);
-        }
-    }
-
-    @GetMapping({"{username}"})
-    public ResponseEntity<User> getUser(Authentication authentication) {
-        User user = this.userService.getUser(authentication.getName());
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(user, HttpStatus.OK);
         }
     }
 
