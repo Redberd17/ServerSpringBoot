@@ -65,4 +65,10 @@ public class RestController {
         dreamService.addUserDreams(dream.getDreamName(), dream.getDreamText(), authentication.getName(), dream.getDreamDuration());
         return new ResponseEntity<>("Dream was send", HttpStatus.OK);
     }
+
+    @DeleteMapping({"dreams/dream/{dreamId}"})
+    public ResponseEntity<String> deleteUserDreams(@PathVariable(name = "dreamId") Integer dreamId) {
+        dreamService.deleteUserDreams(dreamId);
+        return new ResponseEntity<>("Dream was deleted", HttpStatus.OK);
+    }
 }

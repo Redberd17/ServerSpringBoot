@@ -25,4 +25,10 @@ public class DreamServiceImpl implements DreamService {
     public void addUserDreams(String dreamName, String dreamText, String username, Double dreamDuration) {
         dreamsDAO.addUserDreams(dreamName, dreamText, username, dreamDuration);
     }
+
+    @Override
+    public void deleteUserDreams(Integer dreamId) {
+        dreamsDAO.deleteUserDreams(dreamId);
+    }
+
 }

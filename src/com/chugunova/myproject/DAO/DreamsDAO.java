@@ -25,11 +25,12 @@ public class DreamsDAO extends JdbcDaoSupport {
         assert this.getJdbcTemplate() != null;
 
         return this.getJdbcTemplate().query(sql, params, (resultSet, i) -> {
+            Integer dreamId = resultSet.getInt("dreamId");
             String dreamName = resultSet.getString("dreamName");
             String dreamDate = resultSet.getString("dreamDate");
             String dreamText = resultSet.getString("dreamText");
             Double dreamDuration = resultSet.getDouble("dreamDuration");
-            return new Dream(dreamName, dreamDate, dreamText, dreamDuration);
+            return new Dream(dreamId, dreamName, dreamDate, dreamText, dreamDuration);
         });
     }
 
@@ -39,6 +40,14 @@ public class DreamsDAO extends JdbcDaoSupport {
         assert this.getJdbcTemplate() != null;
         int rows = this.getJdbcTemplate().update(sql, params);
         System.out.println(rows + " dreams send");
+    }
+
+    public void deleteUserDreams(Integer dreamId) {
+        String sql = DreamsMapper.DELETE_DREAM;
+        Object[] params = new Object[]{dreamId};
+        assert this.getJdbcTemplate() != null;
+        int rows = this.getJdbcTemplate().update(sql, params);
+        System.out.println(rows + " dreams delete");
     }
 
 }
