@@ -66,6 +66,12 @@ public class AuthenticationRestController {
     @PostMapping("registration")
     public ResponseEntity registration(@RequestBody AuthenticationRequestDto requestDto) {
         String username = requestDto.getUsername();
+
+        if (username.isEmpty()) {
+            System.out.println("Username is empty");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is empty");
+        }
+
         String password = EncryptedPasswordUtils.encryptPassword(requestDto.getPassword());
 
         UserSecurity user = userService.findByUsername(username);
